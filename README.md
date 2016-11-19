@@ -25,7 +25,7 @@ The objective of this project is to try to predict the outcome of a stock based 
 **Environement Setup**
 
 1. Install virtualenv and install requirements:
-	1. $:pip install virtualenv
-	2. $:virtualenv senv
-	3. $:source senv/bin/activate
-	4. $:pip install -r requirements.txt
+	* $:pip install virtualenv
+	* $:virtualenv senv
+	* $:source senv/bin/activate
+	* $:pip install -r requirements.txt
