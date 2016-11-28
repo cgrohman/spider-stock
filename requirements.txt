@@ -21,3 +21,7 @@ six==1.10.0
 Twisted==16.5.0
 w3lib==1.16.0
 zope.interface==4.3.2
+finsymbols==1.1.1
+pandas==0.18.1
+yahoo-finance==1.4.0
+scikit-learn==0.17.1
