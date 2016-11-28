@@ -1,3 +1,21 @@
+#######################################################################
+# Author: Cori Grohman
+# Date: 11/27/2016
+#######################################################################
+# Description: 
+#	- To test this spider, you can run the following command:
+#		$: scrapy runspider newsSpider.py -o output.json
+#	- To alter the search topic, change the variable "TEXT_FIND"
+#	- Output will be located in the "output.json" file
+# To-Do:
+#	- Implement input parameters for domain specific searches
+#	- Import database functions from /utils for storage
+#	- Breakout text/author/date/url logic into functions for input 
+#		parameter based logic		
+# This iteration is simply for testing purposes, it allows for testing
+# of the crawling functionality along with xpath/csspath testing
+#######################################################################
+
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.selector import Selector
 from scrapy.linkextractors import LinkExtractor
@@ -12,7 +30,6 @@ DATE_CSS = '.cnnDateStamp::text'
 DENY = [r'/quote.*',r'/video.*',r'/services/privacy/',r'/services/terms.html']
 ALLOW = [r'money.cnn.com']
 TEXT_FIND = r'trump'
-
 
 class NewsSpider(CrawlSpider):
 	name = 'crawltest'
