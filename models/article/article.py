@@ -1,15 +1,22 @@
-# This class will modelt articles
+##########################
+# Currently not being used
+##########################
+import scrapy
 
-class Article:
-	def __init__(self, company, date_pub, authors=None, sentp=0.0):
-		self.company = company
-		if authors is None:
-			self.authors = []
-		else:
-			self.authors = authors
-		self.date = date_pub
-		self.positive = sentp
-		self.negative = 1-sentp
+class Article(scrapy.Item):
+	title = scrapy.Field()
+	authors = scrapy.Field()
+	company = scrapy.Field()
+	date_pub = scrapy.Field()
+	body = scrapy.Field()
+	positive = scrapy.Field(serializer=str)
+	negative = scrapy.Field(serializer=str)
+	url = scrapy.Field()
+
+	def setPositive(self,percent):
+		self.percent = percent
+		self.negative = 1-double(percent)
+		return
 
 	def quantize():
 		#Need to define a way to quantize each article

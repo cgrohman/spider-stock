@@ -1,3 +1,6 @@
+##########################
+# Currently not being used
+##########################
 class Company:
 
 	def __init__(self, name, authors):
