@@ -74,7 +74,7 @@ def get_symbols(companies):
 
 
 def stock_data(start, end,companies):
-	raw_data = { 'Company': [], 
+	raw_data = {
 	             'High': [],
 	             'Low': [],
 	             'Open': [],
@@ -87,7 +87,6 @@ def stock_data(start, end,companies):
 		company.refresh()
 		data = company.get_historical(start,end)
 		for item in data:
-			raw_data['Company'].append(value)
 			raw_data['High'].append(float(item['High']))
 			raw_data['Low'].append(float(item['Low']))
 			raw_data['Open'].append(float(item['Open']))
@@ -99,7 +98,6 @@ def stock_data(start, end,companies):
 def make_dataframe(raw_data):
 	df = pd.DataFrame({'High':raw_data['High'],
 	                   'Low':raw_data['Low'],
-	                   'Company': raw_data['Company'],
 	                   'Open': raw_data['Open'],
 	                   'Close': raw_data['Close'],
 	                   'Volume': raw_data['Volume'],
