@@ -7,6 +7,10 @@ import scipy
 import matplotlib.pyplot as plt
 from numpy import set_printoptions
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
 
 names = ['Volume','Company','High',
          'Low,Date','Close','Open','Outcome',
@@ -67,6 +71,23 @@ ax.set_yticklabels(names)
 
 scatter_matrix(data)
 plt.show()
+
+#data transformation
+numpy.set_printoptions(precision=3)
+values = data.values
+attributes = values[:,0:11]
+predict = values[:,11]
+minmax_scaler = MinMaxScaler(feature_range = (0,1))
+standard_scaler = StandardScaler.fit(attributes)
+minmax_scaled_attributes = scaler.fit_transform(attributes)
+standar_scaled_attributes = standard_scaler.transform(attributes)
+
+
+#feature selection
+test = SelectKBest(score_func = chi2, k = 3)
+fit = test.fit(attributes,predict)
+weight_features_value = fit.scores_
+features = fit.transform(attributes)
 
 
 
