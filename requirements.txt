@@ -7,6 +7,7 @@ deap==1.0.2
 idna==2.1
 incremental==16.10.1
 lxml==3.6.4
+nltk==3.2.1
 parsel==1.0.3
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
@@ -18,10 +19,7 @@ queuelib==1.4.2
 Scrapy==1.2.0
 service-identity==16.0.0
 six==1.10.0
+textblob==0.11.1
 Twisted==16.5.0
 w3lib==1.16.0
 zope.interface==4.3.2
-finsymbols==1.1.1
-pandas==0.18.1
-yahoo-finance==1.4.0
-scikit-learn==0.17.1
