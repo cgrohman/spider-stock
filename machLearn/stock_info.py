@@ -74,7 +74,7 @@ def get_symbols(companies):
 
 
 def stock_data(start, end,companies):
-	raw_data = { 'Company': [], 
+	raw_data = {
 	             'High': [],
 	             'Low': [],
 	             'Open': [],
@@ -87,7 +87,6 @@ def stock_data(start, end,companies):
 		company.refresh()
 		data = company.get_historical(start,end)
 		for item in data:
-			raw_data['Company'].append(value)
 			raw_data['High'].append(float(item['High']))
 			raw_data['Low'].append(float(item['Low']))
 			raw_data['Open'].append(float(item['Open']))
@@ -99,7 +98,6 @@ def stock_data(start, end,companies):
 def make_dataframe(raw_data):
 	df = pd.DataFrame({'High':raw_data['High'],
 	                   'Low':raw_data['Low'],
-	                   'Company': raw_data['Company'],
 	                   'Open': raw_data['Open'],
 	                   'Close': raw_data['Close'],
 	                   'Volume': raw_data['Volume'],
@@ -129,7 +127,7 @@ nyse_symbols = finsym.get_nyse_symbols()
 tech_companies = {item['symbol'].strip():item['company'] for item in nyse_symbols if 'Technology' in item.values()}
 tech_symbols = get_symbols(tech_companies)
 
-sample_day = 7
+sample_day = 157 #will be change to 365 days 
 date_now = get_older_dates(0)
 old_date = get_older_dates(sample_day)
 raw_data = stock_data(old_date[0],date_now[0],tech_symbols)
@@ -137,12 +135,9 @@ shift_close1 = get_close_price(old_date[1],date_now[1],tech_symbols)
 shift_close2 = get_close_price(old_date[2],date_now[2],tech_symbols)
 stock_numbers = make_dataframe(raw_data)
 
-print raw_data
-print shift_close1
-print shift_close2
 greater = lambda x : 1 if x == True else 0     # 1 if today's price is greater than yesterday's price else 0 
 stock_numbers['Compare1'] = stock_numbers['Close'] > shift_close1['Close']
 stock_numbers['Compare2'] = stock_numbers['Close'] > shift_close2['Close']
 stock_numbers['Compare1'] = stock_numbers['Compare1'].apply(greater)
 stock_numbers['Compare2'] = stock_numbers['Compare2'].apply(greater)
-stock_numbers.to_csv('stock_info.csv')#, mode='a')
+stock_numbers.to_csv('stock_info.csv') #, mode='a')
