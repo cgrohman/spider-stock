@@ -1,5 +1,5 @@
 '''
-This stock_info.py grabs the tech company information from yahoo fiance
+This stock_info.py grabs tech companies' information from yahoo fiance
 and creates a csv file 
 The csv file contains one month of data from yahoo fiance
 '''
@@ -24,6 +24,14 @@ def create_date(date):
 	return string_date
 
 def check_weekend(date):
+	'''
+    Function: checks whether the date pass a parameter 
+    is a Saturday or Sunday. 
+    1 - Monday 
+    ...
+    5 - Saturday
+    6 - Sunday
+	'''
 	num_day = date.weekday()
 	if num_day > 4:
 		return True
@@ -31,23 +39,42 @@ def check_weekend(date):
 		return False
 
 def change_weekend(date):
+	'''
+	Function: Subtracts the number of days it 
+	differs from weekday if the date is a weekend
+	'''
 	if check_weekend(date):
 		num_day = date.weekday()
 		date = date - timedelta(days = num_day-4)
 	return date
 
 def check_holiday(date):
+	'''
+    Function: Checks whether or not 
+    the date is a weekend
+	'''
 	if str(date.date()) in usholidays16:
 		return True
 	else:
 		return False 
 
 def change_holiday(date):
+	'''
+    Function: If the date is a holiday,
+    it will keep subtracting until the date is no longer 
+    a holiday
+	'''
 	while check_holiday(date):
 		date = date - timedelta(days = 1)
 	return date
 
 def get_older_dates(day):
+	'''
+	Function: The parameter is the number of days
+	you wish to go back from the current date.
+	it returns a list that the has 
+	[ calculated date-2, calculated date-1, calculated date]
+	'''
 	date = datetime.now()-timedelta(days=day)
 	date_list = []
 	for i in range(3):
@@ -64,6 +91,11 @@ def get_older_dates(day):
 
 
 def get_symbols(companies):
+	'''
+	Function: A dictionary is pass a parameter 
+	that contains symbols as keys. 
+	A list of symbols is return from this function
+	'''
 	symbols = {}
 	for key,value in companies.items():
 		try:
@@ -74,6 +106,11 @@ def get_symbols(companies):
 
 
 def stock_data(start, end,companies):
+	'''
+	Function: 
+	Parameters: start date, end date, and
+	a list of companies names 
+	'''
 	raw_data = {
 	             'High': [],
 	             'Low': [],
@@ -96,23 +133,35 @@ def stock_data(start, end,companies):
 	return raw_data
 
 def make_dataframe(raw_data):
-	df = pd.DataFrame({'High':raw_data['High'],
+    '''
+    Function:  Creates a dataframe using the 
+    pandas module. 
+
+    Parameter: A dictionary that was create from 
+    the stock_data function
+    '''
+    df = pd.DataFrame({'High':raw_data['High'],
 	                   'Low':raw_data['Low'],
 	                   'Open': raw_data['Open'],
 	                   'Close': raw_data['Close'],
 	                   'Volume': raw_data['Volume'],
 	                   'Date': raw_data['Date']}, columns = raw_data.keys())
-	df['Outcome'] = df['Close'] > df['Open']
-	df['Ho'] = df['High'] - df['Open']
-	df['Lo'] = df['Low'] - df['Open']
-	df['Gain'] = df['Close'] - df['Open']
-
-	outcome = lambda x : 1 if x == True else -1    # 1 for upday  -1 for downday
-	df['Outcome'] = df['Outcome'].apply(outcome)
-	return df
+    df['Outcome'] = df['Close'] > df['Open']
+    df['Ho'] = df['High'] - df['Open']
+    df['Lo'] = df['Low'] - df['Open']
+    df['Gain'] = df['Close'] - df['Open']
+    outcome = lambda x : 1 if x == True else -1    # 1 for upday  -1 for downday
+    df['Outcome'] = df['Outcome'].apply(outcome)
+    return df
 
 
 def get_close_price(start,end,companies):
+	'''
+	Function: Given the parameters, the closing and
+	date price is stored in a dictionary and returned
+	Parameters: start date, end date, and a list of 
+	companies 
+	'''
 	close_price = {'Close': [], 'Date': []}
 	for symbol in companies.keys():
 		company = Share(symbol)
@@ -122,6 +171,8 @@ def get_close_price(start,end,companies):
 			close_price['Close'].append(float(item['Close']))
 			close_price['Date'].append(item['Date'])
 	return close_price
+
+
 
 nyse_symbols = finsym.get_nyse_symbols()
 tech_companies = {item['symbol'].strip():item['company'] for item in nyse_symbols if 'Technology' in item.values()}
